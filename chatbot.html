@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <p>Witaj! Zadaj mi pytanie dotyczące naprawy komputera, a ja postaram się udzielić odpowiedzi.</p>
+    <form id="chatbot-form">
+        <input type="text" id="question" name="question" placeholder="Zadaj pytanie" required>
+        <button type="submit">Wyślij</button>
+    </form>
+    <div id="response"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#chatbot-form').submit(function(event) {
+                event.preventDefault();
+                var question = $('#question').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/chatbot',
+                    data: { question: question },
+                    success: function(data) {
+                        $('#response').html(data.response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

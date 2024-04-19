@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Chatbot</title>
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="white">Client Chatbot</h1>
+        </div>
+        <div class="chat-area" id="chat-area">
+            <!-- Tutaj będą wyświetlane wiadomości chatbota -->
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask a question" id="chat-input">
+            <button id="chat-submit" disabled>Submit</button>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        {% if is_admin %}
+            <a href="admin_panel" class="admin-button">Admin panel</a>
+        {% endif %}
+
+    </div>
+
+    <script>
+        // Add an event listener to the input field
+            document.getElementById('chat-input').addEventListener('input', function() {
+                var submitButton = document.getElementById('chat-submit');
+                var question = this.value.trim();
+
+                // Toggle the button's disabled state based on the input value
+                submitButton.disabled = question.length === 0;
+            });
+
+        document.getElementById('chat-submit').addEventListener('click', function() {
+            var question = document.getElementById('chat-input').value.trim();
+            var formData = new FormData();
+            formData.append('chat-input', question);
+
+            fetch('/client_chatbot_page', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Wyświetlanie odpowiedzi chatbota
+                var chatArea = document.getElementById('chat-area');
+                {% if is_admin %}
+                chatArea.innerHTML += '<div class="chat-message admin">Ty: ' + question + '</div>';
+                {% else %}
+                chatArea.innerHTML += '<div class="chat-message">Ty: ' + question + '</div>';
+                {% endif %}
+                setTimeout(function() {
+                    chatArea.innerHTML += '<div class="chat-message">Bot: ' + data + '</div>';
+                }, 1000);
+
+                document.getElementById('chat-input').value = '';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

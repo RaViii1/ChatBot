@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='adminpanel.css') }}">
+    <style>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="white">Admin Panel</h1>
+        </div>
+        <div class="form-container">
+            <h2>Add Question and Answer</h2>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="question">Question:</label>
+                    <input type="text" id="question" name="question" required>
+                </div>
+                <div class="form-group">
+                    <label for="answer">Answer:</label>
+                    <textarea id="answer" name="answer" rows="3" required></textarea>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+        <a href="{{ url_for('client_chatbot_page') }}" class="admin-button">Go to Chatbot</a>
+    </div>
+</body>
+</html>
